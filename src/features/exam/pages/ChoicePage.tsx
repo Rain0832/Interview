@@ -1,8 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
 import { useState, useMemo } from 'react'
 import { getSessionById, type ChoiceQuestion } from '../data/questions'
-import { useTheme } from '../contexts/ThemeContext'
-import { useRecord } from '../contexts/RecordContext'
+import { useTheme } from '../../../contexts/ThemeContext'
+import { useRecord } from '../../../contexts/RecordContext'
 
 export default function ChoicePage() {
   const { companyId, sessionId } = useParams<{ companyId: string; sessionId: string }>()

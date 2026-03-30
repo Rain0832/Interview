@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useTheme } from '../contexts/ThemeContext'
+import { useTheme } from '../../../contexts/ThemeContext'
 import { companyInterviews, getAllInterviewQuestions, type InterviewCategory } from '../data/interviewTypes'
 
 const CATEGORY_ICONS: Partial<Record<InterviewCategory, string>> = {

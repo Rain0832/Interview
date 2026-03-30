@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
-import { getCompanyById, getSessionById } from '../data/questions'
-import { getInterviewCompany, getDepartment } from '../data/interviewTypes'
+import { getCompanyById, getSessionById } from '../features/exam/data/questions'
+import { getInterviewCompany, getDepartment } from '../features/interview/data/interviewTypes'
 import { useTheme } from '../contexts/ThemeContext'
 import { useAuth } from '../contexts/AuthContext'
 
@@ -38,6 +38,8 @@ export default function Layout() {
       if (company) crumbs.push({ label: company.name, to: '/interview' })
       if (dept) crumbs.push({ label: dept.department, to: location.pathname })
     }
+  } else if (pathParts[0] === 'growth') {
+    crumbs.push({ label: '个人成长', to: '/growth' })
   } else if (pathParts[0] === 'company') {
     // 兼容旧路由
     const company = getCompanyById(pathParts[1])
@@ -69,10 +71,10 @@ export default function Layout() {
             </Link>
             <div className="flex items-center gap-2">
               <nav className="hidden sm:flex items-center gap-1">
-                <Link to="/exam" className={navLink('/exam', '📝 笔试')}>📝 笔试</Link>
-                <Link to="/interview" className={navLink('/interview', '🎤 面试')}>🎤 面试</Link>
-                <Link to="/wrong-book" className={navLink('/wrong-book', '📝 错题本')}>📕 错题本</Link>
-                <Link to="/my-records" className={navLink('/my-records', '📊 记录')}>📊 记录</Link>
+                <Link to="/exam" className={navLink('/exam')}>📝 笔试</Link>
+                <Link to="/interview" className={navLink('/interview')}>🎤 面试</Link>
+                <Link to="/growth" className={navLink('/growth')}>🌱 成长</Link>
+                <Link to="/wrong-book" className={navLink('/wrong-book')}>📕 错题本</Link>
               </nav>
               <button onClick={toggleTheme} className={`relative w-14 h-7 rounded-full transition-all duration-300 cursor-pointer border-0 ${isDark ? 'bg-indigo-600' : 'bg-slate-300'}`} aria-label="切换主题" title={`当前: ${theme === 'dark' ? '深色' : '浅色'}模式`}>
                 <div className={`absolute top-0.5 w-6 h-6 rounded-full bg-white shadow-md flex items-center justify-center text-xs transition-all duration-300 ${isDark ? 'left-7' : 'left-0.5'}`}>{isDark ? '🌙' : '☀️'}</div>
@@ -92,9 +94,8 @@ export default function Layout() {
         <div className={`sm:hidden border-t px-4 py-2 flex gap-2 text-xs overflow-x-auto ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
           <Link to="/exam" className={`shrink-0 px-2 py-1 rounded no-underline ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>📝 笔试</Link>
           <Link to="/interview" className={`shrink-0 px-2 py-1 rounded no-underline ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>🎤 面试</Link>
+          <Link to="/growth" className={`shrink-0 px-2 py-1 rounded no-underline ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>🌱 成长</Link>
           <Link to="/wrong-book" className={`shrink-0 px-2 py-1 rounded no-underline ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>📕 错题本</Link>
-          <Link to="/my-records" className={`shrink-0 px-2 py-1 rounded no-underline ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>📊 记录</Link>
-          <Link to="/upload" className={`shrink-0 px-2 py-1 rounded no-underline ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>➕ 上传</Link>
         </div>
       </header>
 

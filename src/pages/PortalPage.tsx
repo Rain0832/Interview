@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTheme } from '../contexts/ThemeContext'
-import { companies } from '../data/questions'
-import { companyInterviews, getAllInterviewQuestions } from '../data/interviewTypes'
+import { companies } from '../features/exam/data/questions'
+import { companyInterviews, getAllInterviewQuestions } from '../features/interview/data/interviewTypes'
 
 export default function PortalPage() {
   const { isDark } = useTheme()
@@ -38,49 +38,59 @@ export default function PortalPage() {
         ))}
       </div>
 
-      {/* 两大板块入口 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-14">
+      {/* 三大板块入口 */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
         {/* 笔试 OJ */}
         <Link to="/exam" className={card(isDark)}>
-          <div className="flex items-center gap-4 mb-5">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-3xl shadow-lg">📝</div>
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl shadow-lg">📝</div>
             <div>
-              <h2 className={`text-2xl font-bold group-hover:text-blue-500 transition-colors ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
-                笔试题库
-              </h2>
-              <p className={`text-sm mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                选择题 + 编程题 · OJ 在线判题
-              </p>
+              <h2 className={`text-xl font-bold group-hover:text-blue-500 transition-colors ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>笔试题库</h2>
+              <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>选择题 + 编程题 · OJ 判题</p>
             </div>
           </div>
-          <p className={`text-sm leading-relaxed mb-4 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-            汇集美团、饿了么、蚂蚁、拼多多、米哈游等公司 2027 届笔试真题与模拟题。支持选择题实时判分、编程题在线编辑与混合判题。
+          <p className={`text-sm leading-relaxed mb-3 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+            美团、饿了么、蚂蚁、拼多多、米哈游等 27 届笔试真题与模拟题
           </p>
-          <div className="flex gap-3 text-sm">
-            <span className={`px-3 py-1.5 rounded-lg font-medium ${isDark ? 'bg-blue-900/40 text-blue-300' : 'bg-blue-50 text-blue-700'}`}>{companies.length} 家公司</span>
-            <span className={`px-3 py-1.5 rounded-lg font-medium ${isDark ? 'bg-green-900/40 text-green-300' : 'bg-green-50 text-green-700'}`}>{totalExamQ} 道题</span>
+          <div className="flex gap-2 text-xs">
+            <span className={`px-2.5 py-1 rounded-lg font-medium ${isDark ? 'bg-blue-900/40 text-blue-300' : 'bg-blue-50 text-blue-700'}`}>{companies.length} 家公司</span>
+            <span className={`px-2.5 py-1 rounded-lg font-medium ${isDark ? 'bg-green-900/40 text-green-300' : 'bg-green-50 text-green-700'}`}>{totalExamQ} 道题</span>
           </div>
         </Link>
 
         {/* 面试题库 */}
         <Link to="/interview" className={card(isDark)}>
-          <div className="flex items-center gap-4 mb-5">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-3xl shadow-lg">🎤</div>
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-2xl shadow-lg">🎤</div>
             <div>
-              <h2 className={`text-2xl font-bold group-hover:text-purple-500 transition-colors ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
-                面试题库
-              </h2>
-              <p className={`text-sm mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                真实面经 · 按公司/部门/分类浏览
-              </p>
+              <h2 className={`text-xl font-bold group-hover:text-purple-500 transition-colors ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>面试题库</h2>
+              <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>真实面经 · 按公司/分类浏览</p>
             </div>
           </div>
-          <p className={`text-sm leading-relaxed mb-4 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-            来自牛客、小红书等平台的真实面经，按公司部门和题目类型（Redis/MySQL/场景题/手撕算法...）分类，附参考答案。
+          <p className={`text-sm leading-relaxed mb-3 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+            来自牛客、小红书等平台的真实面经，含参考答案、频率标注
           </p>
-          <div className="flex gap-3 text-sm">
-            <span className={`px-3 py-1.5 rounded-lg font-medium ${isDark ? 'bg-purple-900/40 text-purple-300' : 'bg-purple-50 text-purple-700'}`}>{companyInterviews.length} 家公司</span>
-            <span className={`px-3 py-1.5 rounded-lg font-medium ${isDark ? 'bg-pink-900/40 text-pink-300' : 'bg-pink-50 text-pink-700'}`}>{allIQ.length} 道面试题</span>
+          <div className="flex gap-2 text-xs">
+            <span className={`px-2.5 py-1 rounded-lg font-medium ${isDark ? 'bg-purple-900/40 text-purple-300' : 'bg-purple-50 text-purple-700'}`}>{companyInterviews.length} 家公司</span>
+            <span className={`px-2.5 py-1 rounded-lg font-medium ${isDark ? 'bg-pink-900/40 text-pink-300' : 'bg-pink-50 text-pink-700'}`}>{allIQ.length} 道面试题</span>
+          </div>
+        </Link>
+
+        {/* 成长路线图 */}
+        <Link to="/growth" className={card(isDark)}>
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center text-2xl shadow-lg">🌱</div>
+            <div>
+              <h2 className={`text-xl font-bold group-hover:text-green-500 transition-colors ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>成长路线图</h2>
+              <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>AI 转型 · 进度追踪</p>
+            </div>
+          </div>
+          <p className={`text-sm leading-relaxed mb-3 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+            个人成长路线图、学习笔记、任务清单，追踪 AI 技术栈转型进度
+          </p>
+          <div className="flex gap-2 text-xs">
+            <span className={`px-2.5 py-1 rounded-lg font-medium ${isDark ? 'bg-green-900/40 text-green-300' : 'bg-green-50 text-green-700'}`}>🗺️ 路线图</span>
+            <span className={`px-2.5 py-1 rounded-lg font-medium ${isDark ? 'bg-teal-900/40 text-teal-300' : 'bg-teal-50 text-teal-700'}`}>📝 学习笔记</span>
           </div>
         </Link>
       </div>
@@ -92,7 +102,7 @@ export default function PortalPage() {
           { to: '/wrong-book', icon: '📝', label: '错题本', desc: '错题复习' },
           { to: '/my-records', icon: '📊', label: '做题记录', desc: '进度追踪' },
           { to: '/upload', icon: '➕', label: '上传题目', desc: '自定义练习' },
-          { to: '/interview/category', icon: '🏷️', label: '分类刷题', desc: '按知识点' },
+          { to: '/growth', icon: '🌱', label: '成长路线', desc: 'AI转型进度' },
         ].map(t => (
           <Link key={t.to} to={t.to} className={`flex flex-col items-center rounded-xl p-5 border transition-all no-underline hover:shadow-md ${isDark ? 'bg-slate-800 border-slate-700 hover:border-blue-500' : 'bg-white border-slate-100 hover:border-blue-200'}`}>
             <span className="text-3xl mb-2">{t.icon}</span>

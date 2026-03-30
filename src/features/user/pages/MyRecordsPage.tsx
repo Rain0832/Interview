@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { useTheme } from '../contexts/ThemeContext'
-import { useRecord } from '../contexts/RecordContext'
+import { useTheme } from '../../../contexts/ThemeContext'
+import { useRecord } from '../../../contexts/RecordContext'
 
 export default function MyRecordsPage() {
   const { isDark } = useTheme()

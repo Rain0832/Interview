@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { companies } from '../data/questions'
-import { useTheme } from '../contexts/ThemeContext'
-import { useRecord } from '../contexts/RecordContext'
+import { useTheme } from '../../../contexts/ThemeContext'
+import { useRecord } from '../../../contexts/RecordContext'
 
 export default function HomePage() {
   const { isDark } = useTheme()

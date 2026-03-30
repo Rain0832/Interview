@@ -1,29 +1,39 @@
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
+
+// 主页
 import PortalPage from './pages/PortalPage'
-import HomePage from './pages/HomePage'
-import CompanyPage from './pages/CompanyPage'
-import SessionPage from './pages/SessionPage'
-import ChoicePage from './pages/ChoicePage'
-import CodingPage from './pages/CodingPage'
-import InterviewHomePage from './pages/InterviewHomePage'
-import InterviewDeptPage from './pages/InterviewDeptPage'
-import InterviewCategoryPage from './pages/InterviewCategoryPage'
-import WrongBookPage from './pages/WrongBookPage'
-import MyRecordsPage from './pages/MyRecordsPage'
-import UploadPage from './pages/UploadPage'
-import AuthPage from './pages/AuthPage'
+
+// 笔试板块
+import ExamHomePage from './features/exam/pages/HomePage'
+import CompanyPage from './features/exam/pages/CompanyPage'
+import SessionPage from './features/exam/pages/SessionPage'
+import ChoicePage from './features/exam/pages/ChoicePage'
+import CodingPage from './features/exam/pages/CodingPage'
+
+// 面试板块
+import InterviewHomePage from './features/interview/pages/InterviewHomePage'
+import InterviewDeptPage from './features/interview/pages/InterviewDeptPage'
+import InterviewCategoryPage from './features/interview/pages/InterviewCategoryPage'
+
+// 成长板块
+import GrowthPage from './features/growth/pages/GrowthPage'
+
+// 用户板块
+import WrongBookPage from './features/user/pages/WrongBookPage'
+import MyRecordsPage from './features/user/pages/MyRecordsPage'
+import UploadPage from './features/user/pages/UploadPage'
+import AuthPage from './features/user/pages/AuthPage'
 
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        {/* 主页：互联网求职中心 */}
         <Route path="/" element={<PortalPage />} />
         <Route path="/login" element={<AuthPage />} />
 
         {/* 笔试板块 */}
-        <Route path="/exam" element={<HomePage />} />
+        <Route path="/exam" element={<ExamHomePage />} />
         <Route path="/exam/company/:companyId" element={<CompanyPage />} />
         <Route path="/exam/company/:companyId/:sessionId" element={<SessionPage />} />
         <Route path="/exam/company/:companyId/:sessionId/choice" element={<ChoicePage />} />
@@ -35,7 +45,10 @@ function App() {
         <Route path="/interview/category/:category" element={<InterviewCategoryPage />} />
         <Route path="/interview/:companyId/:deptId" element={<InterviewDeptPage />} />
 
-        {/* 个人工具 */}
+        {/* 成长板块 */}
+        <Route path="/growth" element={<GrowthPage />} />
+
+        {/* 用户工具 */}
         <Route path="/wrong-book" element={<WrongBookPage />} />
         <Route path="/my-records" element={<MyRecordsPage />} />
         <Route path="/upload" element={<UploadPage />} />

@@ -1,7 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
 import { useState } from 'react'
-import { useTheme } from '../contexts/ThemeContext'
+import { useTheme } from '../../../contexts/ThemeContext'
 import { getDepartment, getInterviewCompany, type InterviewQuestion } from '../data/interviewTypes'
+import FormattedAnswer from '../../../components/ui/FormattedAnswer'
 
 export default function InterviewDeptPage() {
   const { companyId, deptId } = useParams<{ companyId: string; deptId: string }>()
@@ -85,7 +86,9 @@ export default function InterviewDeptPage() {
                         {q.referenceAnswer && (
                           <details className={`rounded-lg border p-3 ${isDark ? 'border-slate-600 bg-slate-700/50' : 'border-slate-200 bg-slate-50'}`}>
                             <summary className={`cursor-pointer text-sm font-medium ${isDark ? 'text-green-400' : 'text-green-700'}`}>📖 查看参考答案</summary>
-                            <div className={`mt-2 text-sm leading-relaxed whitespace-pre-wrap ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{q.referenceAnswer}</div>
+                            <div className="mt-3">
+                              <FormattedAnswer text={q.referenceAnswer} />
+                            </div>
                           </details>
                         )}
                         {q.source && <div className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>来源：{q.source}</div>}

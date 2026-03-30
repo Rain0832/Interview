@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
 import { getSessionById, type CodingQuestion } from '../data/questions'
-import { useTheme } from '../contexts/ThemeContext'
+import { useTheme } from '../../../contexts/ThemeContext'
 
 export default function SessionPage() {
   const { companyId, sessionId } = useParams<{ companyId: string; sessionId: string }>()

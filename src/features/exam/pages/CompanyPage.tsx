@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
 import { getCompanyById } from '../data/questions'
-import { useTheme } from '../contexts/ThemeContext'
+import { useTheme } from '../../../contexts/ThemeContext'
 
 export default function CompanyPage() {
   const { companyId } = useParams<{ companyId: string }>()

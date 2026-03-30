@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { useTheme } from '../contexts/ThemeContext'
-import { useRecord, type UserQuestion } from '../contexts/RecordContext'
+import { useTheme } from '../../../contexts/ThemeContext'
+import { useRecord, type UserQuestion } from '../../../contexts/RecordContext'
 
 export default function UploadPage() {
   const { isDark } = useTheme()
