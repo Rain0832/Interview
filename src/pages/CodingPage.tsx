@@ -31,7 +31,7 @@ export default function CodingPage() {
       <div className="py-16 text-center">
         <div className="text-6xl mb-4">😕</div>
         <h2 className={`text-2xl font-bold mb-2 ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>未找到该题目</h2>
-        <Link to={`/company/${companyId}/${sessionId}`} className="text-blue-500">返回</Link>
+        <Link to={`/exam/company/${companyId}/${sessionId}`} className="text-blue-500">返回</Link>
       </div>
     )
   }
@@ -203,7 +203,7 @@ export default function CodingPage() {
       <div className={`flex items-center justify-between mt-8 pt-6 border-t ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
         {prevQ ? (
           <Link
-            to={`/company/${companyId}/${sessionId}/coding/${prevQ.id}`}
+            to={`/exam/company/${companyId}/${sessionId}/coding/${prevQ.id}`}
             className={`px-5 py-2.5 border rounded-xl font-medium transition-all no-underline ${isDark ? 'bg-slate-700 text-slate-200 border-slate-600 hover:bg-slate-600' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'}`}
           >
             ← {prevQ.title}
@@ -213,14 +213,14 @@ export default function CodingPage() {
         )}
         {nextQ ? (
           <Link
-            to={`/company/${companyId}/${sessionId}/coding/${nextQ.id}`}
+            to={`/exam/company/${companyId}/${sessionId}/coding/${nextQ.id}`}
             className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:shadow-lg transition-all no-underline"
           >
             {nextQ.title} →
           </Link>
         ) : (
           <Link
-            to={`/company/${companyId}/${sessionId}`}
+            to={`/exam/company/${companyId}/${sessionId}`}
             className="px-5 py-2.5 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-medium hover:shadow-lg transition-all no-underline"
           >
             🎯 返回列表

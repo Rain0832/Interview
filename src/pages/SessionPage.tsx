@@ -12,7 +12,7 @@ export default function SessionPage() {
       <div className="py-16 text-center">
         <div className="text-6xl mb-4">😕</div>
         <h2 className={`text-2xl font-bold mb-2 ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>未找到该场次</h2>
-        <Link to={`/company/${companyId}`} className="text-blue-500 hover:text-blue-400">返回公司页面</Link>
+        <Link to={`/exam/company/${companyId}`} className="text-blue-500 hover:text-blue-400">返回公司页面</Link>
       </div>
     )
   }
@@ -44,7 +44,7 @@ export default function SessionPage() {
             <span className={`text-sm font-normal ml-1 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>({choiceQuestions.length} 题)</span>
           </h2>
           <Link
-            to={`/company/${companyId}/${sessionId}/choice`}
+            to={`/exam/company/${companyId}/${sessionId}/choice`}
             className={`group block rounded-2xl p-6 shadow-sm border hover:shadow-lg transition-all duration-300 no-underline ${isDark ? 'bg-slate-800 border-slate-700 hover:border-green-500' : 'bg-white border-slate-100 hover:border-green-200'}`}
           >
             <div className="flex items-center justify-between">
@@ -77,7 +77,7 @@ export default function SessionPage() {
             {codingQuestions.map((q, idx) => (
               <Link
                 key={q.id}
-                to={`/company/${companyId}/${sessionId}/coding/${q.id}`}
+                to={`/exam/company/${companyId}/${sessionId}/coding/${q.id}`}
                 className={`group flex items-center rounded-xl p-5 shadow-sm border hover:shadow-md transition-all duration-200 no-underline ${isDark ? 'bg-slate-800 border-slate-700 hover:border-blue-500' : 'bg-white border-slate-100 hover:border-blue-200'}`}
               >
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold mr-4 shrink-0 transition-colors ${isDark ? 'bg-slate-700 text-slate-300 group-hover:bg-blue-900/50 group-hover:text-blue-300' : 'bg-slate-100 text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-600'}`}>

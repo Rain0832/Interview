@@ -25,7 +25,7 @@ export default function ChoicePage() {
       <div className="py-16 text-center">
         <div className="text-6xl mb-4">📭</div>
         <h2 className={`text-2xl font-bold mb-2 ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>暂无选择题</h2>
-        <Link to={`/company/${companyId}/${sessionId}`} className="text-blue-500">返回</Link>
+        <Link to={`/exam/company/${companyId}/${sessionId}`} className="text-blue-500">返回</Link>
       </div>
     )
   }

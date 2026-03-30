@@ -59,7 +59,7 @@ export default function WrongBookPage() {
                   </div>
                 </div>
                 <Link
-                  to={`/company/${record.companyId}/${record.sessionId}/choice`}
+                  to={`/exam/company/${record.companyId}/${record.sessionId}/choice`}
                   className="text-sm text-blue-500 hover:text-blue-400 no-underline"
                 >
                   重做 →

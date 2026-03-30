@@ -46,7 +46,7 @@ export default function CompanyPage() {
           return (
             <Link
               key={session.id}
-              to={`/company/${companyId}/${session.id}`}
+              to={`/exam/company/${companyId}/${session.id}`}
               className={`group block rounded-2xl p-6 shadow-sm border hover:shadow-lg hover:-translate-y-1 transition-all duration-300 no-underline ${isDark ? 'bg-slate-800 border-slate-700 hover:border-blue-500' : 'bg-white border-slate-100 hover:border-blue-200'}`}
             >
               <div className="flex items-center justify-between mb-4">
