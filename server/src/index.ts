@@ -7,6 +7,7 @@ import authRoutes from './routes/auth.js'
 import recordRoutes from './routes/records.js'
 import submissionRoutes from './routes/submissions.js'
 import questionRoutes from './routes/questions.js'
+import growthRoutes from './routes/growth.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -24,6 +25,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/records', recordRoutes)
 app.use('/api/submissions', submissionRoutes)
 app.use('/api/questions', questionRoutes)
+app.use('/api/growth', growthRoutes)
 
 // 健康检查
 app.get('/api/health', (_req, res) => {

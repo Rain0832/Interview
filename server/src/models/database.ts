@@ -79,6 +79,44 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_records_user ON answer_records(user_id);
   CREATE INDEX IF NOT EXISTS idx_submissions_user ON submissions(user_id);
   CREATE INDEX IF NOT EXISTS idx_user_questions_user ON user_questions(user_id);
+
+  -- ==================== 成长路线图 ====================
+  CREATE TABLE IF NOT EXISTS growth_roadmaps (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    description TEXT DEFAULT '',
+    milestones TEXT NOT NULL DEFAULT '[]',
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now')),
+    UNIQUE(user_id, id)
+  );
+
+  CREATE TABLE IF NOT EXISTS growth_notes (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    roadmap_id TEXT DEFAULT '',
+    milestone_id TEXT DEFAULT '',
+    title TEXT NOT NULL,
+    content TEXT NOT NULL DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_roadmaps_user ON growth_roadmaps(user_id);
+  CREATE INDEX IF NOT EXISTS idx_notes_user ON growth_notes(user_id);
 `)
+
+// ==================== 种子用户 ====================
+import bcrypt from 'bcryptjs'
+import { v4 as uuid } from 'uuid'
+
+const seedUser = db.prepare('SELECT id FROM users WHERE email = ?').get('2710007824@qq.com')
+if (!seedUser) {
+  const id = uuid()
+  const hash = bcrypt.hashSync('2710007824@qq.com', 10)
+  db.prepare('INSERT INTO users (id, username, email, password_hash) VALUES (?, ?, ?, ?)').run(id, '2710007824@qq.com', '2710007824@qq.com', hash)
+  console.log('[DB] 种子用户已创建: 2710007824@qq.com')
+}
 
 export default db

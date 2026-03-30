@@ -110,6 +110,35 @@ class ApiClient {
   async deleteQuestion(id: string) {
     return this.request(`/questions/${id}`, { method: 'DELETE' })
   }
+
+  // Growth — Roadmap
+  async getRoadmaps() {
+    return this.request<{ roadmaps: any[] }>('/growth/roadmap')
+  }
+  async saveRoadmap(data: { id?: string; title: string; description: string; milestones: any[] }) {
+    if (data.id) {
+      return this.request(`/growth/roadmap/${data.id}`, { method: 'PUT', body: JSON.stringify(data) })
+    }
+    return this.request<{ id: string }>('/growth/roadmap', { method: 'POST', body: JSON.stringify(data) })
+  }
+  async deleteRoadmap(id: string) {
+    return this.request(`/growth/roadmap/${id}`, { method: 'DELETE' })
+  }
+
+  // Growth — Notes
+  async getNotes(roadmapId?: string) {
+    const q = roadmapId ? `?roadmap_id=${roadmapId}` : ''
+    return this.request<{ notes: any[] }>(`/growth/notes${q}`)
+  }
+  async saveNote(data: { id?: string; roadmapId?: string; milestoneId?: string; title: string; content: string }) {
+    if (data.id) {
+      return this.request(`/growth/notes/${data.id}`, { method: 'PUT', body: JSON.stringify(data) })
+    }
+    return this.request<{ id: string }>('/growth/notes', { method: 'POST', body: JSON.stringify(data) })
+  }
+  async deleteNote(id: string) {
+    return this.request(`/growth/notes/${id}`, { method: 'DELETE' })
+  }
 }
 
 export const api = new ApiClient()
