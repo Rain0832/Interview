@@ -139,6 +139,17 @@ class ApiClient {
   async deleteNote(id: string) {
     return this.request(`/growth/notes/${id}`, { method: 'DELETE' })
   }
+
+  // Progress
+  async getAllProgress() {
+    return this.request<{ progress: any[] }>('/progress')
+  }
+  async getProgress(questionId: string) {
+    return this.request<{ progress: any }>(`/progress/${questionId}`)
+  }
+  async saveProgress(questionId: string, data: { status?: string; myAnswer?: string; note?: string }) {
+    return this.request(`/progress/${questionId}`, { method: 'PUT', body: JSON.stringify(data) })
+  }
 }
 
 export const api = new ApiClient()

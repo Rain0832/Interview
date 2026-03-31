@@ -107,6 +107,19 @@ db.exec(`
 
   CREATE INDEX IF NOT EXISTS idx_roadmaps_user ON growth_roadmaps(user_id);
   CREATE INDEX IF NOT EXISTS idx_notes_user ON growth_notes(user_id);
+
+  CREATE TABLE IF NOT EXISTS question_progress (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT NOT NULL,
+    question_id TEXT NOT NULL,
+    status TEXT DEFAULT 'unseen' CHECK(status IN ('unseen','learning','confused','mastered')),
+    my_answer TEXT DEFAULT '',
+    note TEXT DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now')),
+    UNIQUE(user_id, question_id)
+  );
+  CREATE INDEX IF NOT EXISTS idx_progress_user ON question_progress(user_id);
 `)
 
 // ==================== 种子用户 ====================
