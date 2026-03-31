@@ -97,6 +97,23 @@ PORT=8080 npx tsx src/index.ts
 
 访问 `http://localhost:8080`，Express 同时托管前端静态文件和 API。
 
+### 6. 多设备数据同步
+
+笔记、做题记录等数据存储在 `server/data/interview.db`（SQLite），已纳入 Git 管理。
+
+```bash
+# 设备 A 使用后，同步数据到远端
+git add server/data/interview.db
+git commit -m "sync: 更新笔记和做题记录"
+git push
+
+# 设备 B 拉取最新数据
+git pull
+# 重启后端即可看到最新数据
+```
+
+> 注意：SQLite 不支持并发写入，请确保同一时间只有一个设备在写入数据。
+
 ---
 
 ## 项目结构

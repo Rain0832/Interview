@@ -12,8 +12,7 @@ dist
 dist-ssr
 *.local
 
-# Database
-*.db
+# Database temp files (db itself is tracked for multi-device sync)
 *.db-wal
 *.db-shm
 
