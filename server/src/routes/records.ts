@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import db from '../models/database.js'
 import { authMiddleware, type JwtPayload } from '../middleware/auth.js'
+import { triggerGitSync } from '../utils/gitSync.js'
 
 const router = Router()
 
@@ -27,6 +28,7 @@ router.post('/', authMiddleware, (req, res) => {
   })
   tx()
 
+  triggerGitSync('保存做题记录')
   res.json({ success: true, count: records.length })
 })
 
