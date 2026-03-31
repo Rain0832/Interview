@@ -14,14 +14,26 @@ export default function InterviewHomePage() {
   const allQ = getAllInterviewQuestions()
   const categoryCount: Record<string, number> = {}
   allQ.forEach(q => { categoryCount[q.category] = (categoryCount[q.category] || 0) + 1 })
+  const favCount = (() => { try { return JSON.parse(localStorage.getItem('oj-interview-favorites') || '[]').length } catch { return 0 } })()
 
   return (
     <div className="py-8">
-      <div className="mb-10">
-        <h1 className={`text-3xl font-bold mb-2 ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>🎤 面试题库</h1>
+      <div className="flex items-center justify-between mb-10">
+        <div>
+          <h1 className={`text-3xl font-bold mb-2 ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>🎤 面试题库</h1>
         <p className={`${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
           来自牛客、小红书等平台的真实面经，按公司部门或题目类型浏览
         </p>
+        </div>
+        {favCount > 0 && (
+          <Link to="/interview/category/⭐ 收藏" className={`flex items-center gap-2 px-4 py-2.5 rounded-xl no-underline transition-all hover:shadow-md ${isDark ? 'bg-amber-900/30 text-amber-300 border border-amber-800' : 'bg-amber-50 text-amber-700 border border-amber-200'}`}>
+            <span className="text-lg">⭐</span>
+            <div>
+              <div className="text-sm font-medium">我的收藏</div>
+              <div className={`text-xs ${isDark ? 'text-amber-400' : 'text-amber-500'}`}>{favCount} 道题</div>
+            </div>
+          </Link>
+        )}
       </div>
 
       {/* 按公司浏览 */}
