@@ -97,6 +97,8 @@ db.exec(`
     user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     roadmap_id TEXT DEFAULT '',
     milestone_id TEXT DEFAULT '',
+    folder TEXT DEFAULT '',
+    source TEXT DEFAULT 'manual',
     title TEXT NOT NULL,
     content TEXT NOT NULL DEFAULT '',
     created_at TEXT DEFAULT (datetime('now')),

@@ -54,18 +54,18 @@ router.get('/notes', authMiddleware, (req, res) => {
 
 router.post('/notes', authMiddleware, (req, res) => {
   const { userId } = (req as any).user as JwtPayload
-  const { roadmapId, milestoneId, title, content } = req.body
+  const { roadmapId, milestoneId, folder, source, title, content } = req.body
   if (!title) { res.status(400).json({ error: '标题不能为空' }); return }
   const id = uuid()
-  db.prepare('INSERT INTO growth_notes (id, user_id, roadmap_id, milestone_id, title, content) VALUES (?, ?, ?, ?, ?, ?)').run(id, userId, roadmapId || '', milestoneId || '', title, content || '')
+  db.prepare('INSERT INTO growth_notes (id, user_id, roadmap_id, milestone_id, folder, source, title, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(id, userId, roadmapId || '', milestoneId || '', folder || '', source || 'manual', title, content || '')
   triggerGitSync('保存笔记')
   res.json({ id })
 })
 
 router.put('/notes/:id', authMiddleware, (req, res) => {
   const { userId } = (req as any).user as JwtPayload
-  const { title, content, milestoneId } = req.body
-  const result = db.prepare("UPDATE growth_notes SET title=?, content=?, milestone_id=?, updated_at=datetime('now') WHERE id=? AND user_id=?").run(title, content || '', milestoneId || '', req.params.id, userId)
+  const { title, content, milestoneId, folder } = req.body
+  const result = db.prepare("UPDATE growth_notes SET title=?, content=?, milestone_id=?, folder=COALESCE(?,folder), updated_at=datetime('now') WHERE id=? AND user_id=?").run(title, content || '', milestoneId || '', folder, req.params.id, userId)
   if (result.changes === 0) { res.status(404).json({ error: '未找到' }); return }
   triggerGitSync('更新笔记')
   res.json({ success: true })

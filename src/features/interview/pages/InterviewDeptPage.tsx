@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useTheme } from '../../../contexts/ThemeContext'
 import { getDepartment, getInterviewCompany } from '../data/interviewTypes'
 import FormattedAnswer from '../../../components/ui/FormattedAnswer'
+import NoteSidebar from '../../../components/ui/NoteSidebar'
 
 export default function InterviewDeptPage() {
   const { companyId, deptId } = useParams<{ companyId: string; deptId: string }>()
@@ -14,6 +15,7 @@ export default function InterviewDeptPage() {
   const [currentIdx, setCurrentIdx] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card')
+  const [showNote, setShowNote] = useState(false)
   const [favorites, setFavorites] = useState<Set<string>>(() => {
     try { return new Set(JSON.parse(localStorage.getItem('oj-interview-favorites') || '[]')) } catch { return new Set() }
   })
@@ -109,9 +111,10 @@ export default function InterviewDeptPage() {
             ))}
           </div>
 
-          {/* 题目卡片 */}
+          {/* 题目卡片 + 笔记侧边栏 */}
           {q && (
-            <div className={`rounded-2xl border shadow-sm overflow-hidden ${c}`}>
+            <div className="flex gap-4">
+            <div className={`flex-1 min-w-0 rounded-2xl border shadow-sm overflow-hidden ${c}`}>
               {/* 卡片头部 */}
               <div className={`px-6 py-4 border-b flex items-center justify-between flex-wrap gap-2 ${isDark ? 'border-slate-700' : 'border-slate-100'}`}>
                 <div className="flex items-center gap-2 flex-wrap">
@@ -119,11 +122,16 @@ export default function InterviewDeptPage() {
                   <span className={`text-xs px-2.5 py-0.5 rounded-full ${isDark ? 'bg-slate-700 text-slate-300' : 'bg-slate-100 text-slate-600'}`}>{q.category}</span>
                   {q.frequency && <span className={`text-xs px-2 py-0.5 rounded-full ${freqBadge(q.frequency).cls}`}>{freqBadge(q.frequency).text}</span>}
                 </div>
-                <button onClick={() => toggleFavorite(q.id)}
-                  className={`text-xl cursor-pointer transition-transform hover:scale-125 bg-transparent border-0 ${favorites.has(q.id) ? 'scale-110' : 'opacity-40 hover:opacity-100'}`}
-                  title={favorites.has(q.id) ? '取消收藏' : '收藏'}>
-                  {favorites.has(q.id) ? '⭐' : '☆'}
-                </button>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => setShowNote(!showNote)}
+                    className={`text-sm cursor-pointer bg-transparent border-0 transition-all hover:scale-110 ${showNote ? 'opacity-100' : 'opacity-40 hover:opacity-100'}`}
+                    title="写笔记">📝</button>
+                  <button onClick={() => toggleFavorite(q.id)}
+                    className={`text-xl cursor-pointer transition-transform hover:scale-125 bg-transparent border-0 ${favorites.has(q.id) ? 'scale-110' : 'opacity-40 hover:opacity-100'}`}
+                    title={favorites.has(q.id) ? '取消收藏' : '收藏'}>
+                    {favorites.has(q.id) ? '⭐' : '☆'}
+                  </button>
+                </div>
               </div>
 
               {/* 题目内容 */}
@@ -166,6 +174,14 @@ export default function InterviewDeptPage() {
                   下一题 →
                 </button>
               </div>
+            </div>
+            <NoteSidebar
+              visible={showNote}
+              onClose={() => setShowNote(false)}
+              defaultTitle={q ? `面试笔记: ${q.title}` : ''}
+              defaultFolder={`${company.name} · ${dept.department}`}
+              source="interview"
+            />
             </div>
           )}
         </div>

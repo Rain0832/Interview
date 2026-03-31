@@ -130,7 +130,7 @@ class ApiClient {
     const q = roadmapId ? `?roadmap_id=${roadmapId}` : ''
     return this.request<{ notes: any[] }>(`/growth/notes${q}`)
   }
-  async saveNote(data: { id?: string; roadmapId?: string; milestoneId?: string; title: string; content: string }) {
+  async saveNote(data: { id?: string; roadmapId?: string; milestoneId?: string; folder?: string; source?: string; title: string; content: string }) {
     if (data.id) {
       return this.request(`/growth/notes/${data.id}`, { method: 'PUT', body: JSON.stringify(data) })
     }

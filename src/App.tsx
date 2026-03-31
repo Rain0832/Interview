@@ -24,6 +24,7 @@ import WrongBookPage from './features/user/pages/WrongBookPage'
 import MyRecordsPage from './features/user/pages/MyRecordsPage'
 import UploadPage from './features/user/pages/UploadPage'
 import AuthPage from './features/user/pages/AuthPage'
+import ProfilePage from './features/user/pages/ProfilePage'
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
         <Route path="/growth" element={<GrowthPage />} />
 
         {/* 用户工具 */}
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/wrong-book" element={<WrongBookPage />} />
         <Route path="/my-records" element={<MyRecordsPage />} />
         <Route path="/upload" element={<UploadPage />} />

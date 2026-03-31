@@ -49,7 +49,7 @@ export default function Layout() {
       crumbs.push({ label: session?.name || pathParts[2], to: `/company/${pathParts[1]}/${pathParts[2]}` })
     }
   } else {
-    const labels: Record<string, string> = { 'wrong-book': '错题本', 'my-records': '做题记录', 'upload': '上传题目', 'login': '登录' }
+    const labels: Record<string, string> = { 'wrong-book': '错题本', 'my-records': '做题记录', 'upload': '上传题目', 'login': '登录', 'profile': '个人中心' }
     if (pathParts[0] && labels[pathParts[0]]) crumbs.push({ label: labels[pathParts[0]], to: location.pathname })
   }
 
@@ -81,7 +81,7 @@ export default function Layout() {
               </button>
               {isLoggedIn ? (
                 <div className="flex items-center gap-2">
-                  <span className={`text-sm font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{user?.username}</span>
+                  <Link to="/profile" className={`text-sm font-medium no-underline ${isDark ? 'text-slate-300 hover:text-blue-300' : 'text-slate-600 hover:text-blue-600'}`}>{user?.username}</Link>
                   <button onClick={logout} className={`px-3 py-1.5 text-xs rounded-lg border transition-colors cursor-pointer ${isDark ? 'border-slate-600 text-slate-400 hover:bg-slate-700' : 'border-slate-200 text-slate-500 hover:bg-slate-100'}`}>退出</button>
                 </div>
               ) : (
