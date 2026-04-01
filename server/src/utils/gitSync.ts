@@ -1,7 +1,7 @@
 /**
  * Git 自动同步 — 数据库变更后自动 commit + push 到 GitHub
- *
- * 策略：防抖(debounce) 5秒，避免频繁写入时每次都触发 git 操作
+ * 
+ * 兼容性：不依赖 sqlite3 命令行工具，改用 better-sqlite3 的 JS API 做 checkpoint
  */
 import { exec } from 'node:child_process'
 import path from 'node:path'
@@ -13,44 +13,45 @@ const PROJECT_ROOT = path.join(__dirname, '..', '..', '..')
 let syncTimer: ReturnType<typeof setTimeout> | null = null
 let syncing = false
 
-/**
- * 触发 Git 同步（防抖 5 秒）
- * 多次调用只会在最后一次调用 5 秒后执行一次
- */
 export function triggerGitSync(reason: string = '数据更新') {
   if (syncTimer) clearTimeout(syncTimer)
-
   syncTimer = setTimeout(() => {
     if (syncing) return
-    doGitSync(reason)
+    doGitSync(reason).catch(err => console.warn('[GitSync] 错误:', err.message))
   }, 5000)
 }
 
 async function doGitSync(reason: string) {
   syncing = true
-  const timestamp = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
-  const commitMsg = `sync: ${reason} (${timestamp})`
-
-  // 先 checkpoint WAL 到主数据库文件
-  const commands = [
-    `sqlite3 ${path.join(PROJECT_ROOT, 'server/data/interview.db')} "PRAGMA wal_checkpoint(TRUNCATE);"`,
-    `cd ${PROJECT_ROOT} && git add server/data/interview.db`,
-    `cd ${PROJECT_ROOT} && git -c user.name="auto-sync" -c user.email="sync@interviewoj.local" diff --cached --quiet || git -c user.name="auto-sync" -c user.email="sync@interviewoj.local" commit -m "${commitMsg}"`,
-    `cd ${PROJECT_ROOT} && git push origin main`,
-  ]
-
-  for (const cmd of commands) {
+  try {
+    // 用 JS API 做 WAL checkpoint（不依赖 sqlite3 命令行）
     try {
-      await execPromise(cmd)
-    } catch (err: any) {
-      // push 失败不阻断（可能网络不通），只打日志
-      console.warn(`[GitSync] 命令失败: ${cmd.slice(0, 80)}...`, err.message?.slice(0, 100))
-      break
+      const { default: db } = await import('../models/database.js')
+      db.pragma('wal_checkpoint(TRUNCATE)')
+    } catch (e: any) {
+      console.warn('[GitSync] checkpoint 失败:', e.message)
     }
-  }
 
+    const timestamp = new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
+    const dbPath = path.join('server', 'data', 'interview.db')
+    const commitMsg = `sync: ${reason} (${timestamp})`
+
+    // git 操作
+    await execPromise(`git -C "${PROJECT_ROOT}" add "${dbPath}"`)
+    // 检查有没有变更，有才 commit
+    try {
+      await execPromise(`git -C "${PROJECT_ROOT}" diff --cached --quiet`)
+      // 没有变更，跳过
+    } catch {
+      // diff --quiet 退出码非0 = 有变更，执行 commit
+      await execPromise(`git -C "${PROJECT_ROOT}" -c user.name="auto-sync" -c user.email="sync@interviewoj.local" commit -m "${commitMsg}"`)
+    }
+    await execPromise(`git -C "${PROJECT_ROOT}" push origin main`)
+    console.log(`[GitSync] ✅ 同步完成: ${reason}`)
+  } catch (err: any) {
+    console.warn(`[GitSync] 同步失败(不影响使用): ${err.message?.slice(0, 100)}`)
+  }
   syncing = false
-  console.log(`[GitSync] ✅ 同步完成: ${reason}`)
 }
 
 function execPromise(cmd: string): Promise<string> {
